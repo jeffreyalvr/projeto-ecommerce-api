@@ -4,6 +4,7 @@ import produtosRoutes from "./routes/produtos.js";
 const PORT = 3333;
 
 const app = express();
+app.use(express.json());
 
 app.use("/produtos", produtosRoutes);
 
