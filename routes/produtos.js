@@ -31,9 +31,21 @@ produtos.delete("/:id", (req, res) => {
   if (!produto)
     return res.status(404).send(`Produto com id "${id}" não encontrado!`);
 
-  // TODO: remover item do json
+  // TODO: remover item
 
   res.status(200).send(`Produto com id "${id}" removido com sucesso!`);
+});
+
+produtos.patch("/:id", (req, res) => {
+  const { id } = req.params;
+  const produto = db.find((item) => item.id === id);
+
+  if (!produto)
+    return res.status(404).send(`Produto com id "${id}" não encontrado!`);
+
+  // TODO: atualiza item
+
+  res.status(200).send(`Produto com id "${id}" atualizado com sucesso!`);
 });
 
 export default produtos;
