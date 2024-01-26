@@ -24,4 +24,16 @@ produtos.get("/:id", (req, res) => {
   res.status(302).send(produto);
 });
 
+produtos.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const produto = db.find((item) => item.id === id);
+
+  if (!produto)
+    return res.status(404).send(`Produto com id "${id}" não encontrado!`);
+
+  // TODO: remover item do json
+
+  res.status(200).send(`Produto com id "${id}" removido com sucesso!`);
+});
+
 export default produtos;
