@@ -11,7 +11,17 @@ produtos.get("/", (req, res) => {
 produtos.post("/", (req, res) => {
   const produto = req.body;
   db.push({ ...produto, id: uuidv4() });
-  res.send(`Produto "${produto.produto}" adicionado com sucesso!`);
+  res.status(201).send(`Produto "${produto.nome}" adicionado com sucesso!`);
+});
+
+produtos.get("/:id", (req, res) => {
+  const { id } = req.params;
+  const produto = db.find((item) => item.id === id);
+
+  if (!produto)
+    return res.status(404).send(`Produto com id "${id}" não encontrado!`);
+
+  res.status(302).send(produto);
 });
 
 export default produtos;
