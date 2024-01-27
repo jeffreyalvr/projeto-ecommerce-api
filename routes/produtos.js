@@ -1,17 +1,23 @@
 import express from "express";
-import db from "../db.json" assert { type: "json" };
-import { v4 as uuidv4 } from "uuid";
+import prisma from "../db.js";
 
 const produtos = express.Router();
 
-produtos.get("/", (req, res) => {
-  res.send(db);
+produtos.get("/", async (req, res) => {
+  const dados = await prisma.produto.findMany();
+  res.send(dados);
 });
 
-produtos.post("/", (req, res) => {
+produtos.post("/", async (req, res) => {
   const produto = req.body;
-  db.push({ ...produto, id: uuidv4() });
-  res.status(201).send(`Produto "${produto.nome}" adicionado com sucesso!`);
+  try {
+    await prisma.produto.create({ ...produto });
+    return res
+      .status(201)
+      .send(`Produto "${produto.nome}" adicionado com sucesso!`);
+  } catch (error) {
+    return res.send(`Ocorreu um erro ao adicionar o produto: ${error}`);
+  }
 });
 
 produtos.get("/:id", (req, res) => {
@@ -38,12 +44,14 @@ produtos.delete("/:id", (req, res) => {
 
 produtos.patch("/:id", (req, res) => {
   const { id } = req.params;
-  const produto = db.find((item) => item.id === id);
+  let produto = db.find((item) => item.id === id);
+  const { nome, valor, estoque } = req.body;
 
   if (!produto)
     return res.status(404).send(`Produto com id "${id}" não encontrado!`);
 
   // TODO: atualiza item
+  produto = { nome, valor, estoque };
 
   res.status(200).send(`Produto com id "${id}" atualizado com sucesso!`);
 });
