@@ -10,6 +10,7 @@ produtos.get("/", async (req, res) => {
 
 produtos.post("/", async (req, res) => {
   const produto = req.body;
+  // TODO: terminar de implementar a adição do produto
   try {
     await prisma.produto.create({ ...produto });
     return res
