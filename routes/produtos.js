@@ -9,15 +9,18 @@ produtos.get("/", async (req, res) => {
 });
 
 produtos.post("/", async (req, res) => {
-  const produto = req.body;
-  // TODO: terminar de implementar a adição do produto
+  const { nome, valor, estoque, descricao, fotoUrl } = req.body;
   try {
-    await prisma.produto.create({ ...produto });
-    return res
-      .status(201)
-      .send(`Produto "${produto.nome}" adicionado com sucesso!`);
+    await prisma.produto.create({
+      data: { nome, valor, estoque, descricao, fotoUrl },
+    });
+    return res.status(201).send(`Produto "${nome}" adicionado com sucesso!`);
   } catch (error) {
-    return res.send(`Ocorreu um erro ao adicionar o produto: ${error}`);
+    return res
+      .status(500)
+      .send(
+        "Ocorreu um erro ao adicionar o produto. Verifique os campos enviados ou tente novamente mais tarde."
+      );
   }
 });
 
