@@ -45,16 +45,14 @@ produtos.delete("/:id", async (req, res) => {
   res.status(200).send(`Produto com id "${id}" removido com sucesso!`);
 });
 
-produtos.patch("/:id", (req, res) => {
+produtos.patch("/:id", async (req, res) => {
   const { id } = req.params;
-  let produto = db.find((item) => item.id === id);
-  const { nome, valor, estoque } = req.body;
+  let produto = await prisma.produto.findUnique({ where: { id } });
 
   if (!produto)
     return res.status(404).send(`Produto com id "${id}" não encontrado!`);
 
-  // TODO: atualiza item
-  produto = { nome, valor, estoque };
+  await prisma.produto.update({ where: { id }, data: { ...req.body } });
 
   res.status(200).send(`Produto com id "${id}" atualizado com sucesso!`);
 });
