@@ -1,7 +1,7 @@
 import express from "express";
 import produtosRoutes from "./routes/produtos.js";
 
-const PORT = 3333;
+const PORT = 3334;
 
 const app = express();
 app.use(express.json());
