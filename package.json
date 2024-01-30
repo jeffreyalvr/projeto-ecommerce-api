@@ -4,8 +4,12 @@
   "description": "API necessária para o funcionamento do projeto-ecommerce.",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
     "dev": "node --watch index.js",
+    "start": "node index.js",
     "postinstall": "prisma generate"
   },
   "keywords": [],

@@ -12,6 +12,6 @@ app.get("/", (req, res) => {
   res.send("GET Index");
 });
 
-app.listen(PORT, () =>
+app.listen(process.env.PORT || PORT, () =>
   console.log(`Server rodando em http://localhost:${PORT}...`)
 );
