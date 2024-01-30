@@ -24,9 +24,9 @@ produtos.post("/", async (req, res) => {
   }
 });
 
-produtos.get("/:id", (req, res) => {
+produtos.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const produto = db.find((item) => item.id === id);
+  const produto = await prisma.produto.findUnique({ where: { id } });
 
   if (!produto)
     return res.status(404).send(`Produto com id "${id}" não encontrado!`);
